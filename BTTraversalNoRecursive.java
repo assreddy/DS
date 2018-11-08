@@ -46,12 +46,65 @@ public class BTTraversalNoRecursive {
     return res;
   }
 
-  public void printPostOrderNoRec(BinaryNode BinaryNode){
+  public ArrayList<Integer> printPostOrderNoRec(BinaryNode BinaryNode){
+    ArrayList<Integer> res = new ArrayList<>();
+    if(root == null){
+      return res;
+    }
+    Stack<BinaryNode> s = new Stack<>();
+    s.push(root);
 
+    BinaryNode pre = null;
+
+    while(!s.isEmpty()){
+      BinaryNode curr = s.peek();
+      //Traverse from top to bottom and if curr has left child or right child
+      // push into the stack : otherwise pop out.
+      if(pre == null || pre.left == curr|| pre.right == curr){
+        if(curr.left != null){
+          s.push(curr.left);
+        } else if(curr.right != null){
+          s.push(curr.right);
+        }
+      } else if(curr.left == pre) {
+        if (curr.right != null) {
+          s.push(curr.right);
+        }
+      }
+      else{
+        res.add(curr.data);
+        s.pop();
+      }
+
+      pre = curr;
+    }
+    return res;
   }
 
-  public void printInOrderNoRec(BinaryNode node){
+  public ArrayList<Integer> printInOrderNoRec(BinaryNode node){
+    ArrayList<Integer> res = new ArrayList<>();
+    if(root == null){
+      return res;
+    }
+    Stack<BinaryNode> s = new Stack<>();
+    BinaryNode currentNode = root;
+    boolean isDone = false;
 
+    while(!isDone){
+      if(currentNode !=null){
+        s.push(currentNode);
+        currentNode =currentNode.left;
+      }else {
+        if(s.isEmpty()){
+          isDone=true;
+        } else {
+          currentNode = s.pop();
+          res.add(currentNode.data);
+          currentNode = currentNode.right;
+        }
+      }
+    }
+    return res;
   }
 
   public static void main(String args[]){
@@ -67,14 +120,10 @@ public class BTTraversalNoRecursive {
     System.out.println(BTNoRec.printPreOrderNoRec(BTNoRec.root).toString());
     System.out.println();
     System.out.print("PostOrder ==> " +" ");
+    System.out.println(BTNoRec.printPostOrderNoRec(BTNoRec.root).toString());
 
     System.out.println();
     System.out.print("InOrder ==> " +" ");
-
-
-
-
+    System.out.println(BTNoRec.printInOrderNoRec(BTNoRec.root).toString());
   }
-
-
 }
