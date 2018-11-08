@@ -1,6 +1,8 @@
 package BinaryTrees;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 class BinaryNode{
@@ -107,6 +109,42 @@ public class BTTraversalNoRecursive {
     return res;
   }
 
+  public ArrayList<ArrayList<Integer>> levelOrderTraversal(BinaryNode BinaryNode){
+
+    ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+
+    if(root == null){
+      return res;
+    }
+    Queue<BinaryNode> q = new LinkedList<>();
+    q.offer(root);
+    q.offer(null);
+
+    ArrayList<Integer> curr = new ArrayList<>();
+    while(!q.isEmpty()){
+      BinaryNode temp = q.poll();
+      if(temp != null){
+        curr.add(temp.data);
+        if(temp.left != null){
+          q.offer(temp.left);
+        }
+        if (temp.right != null){
+          q.offer(temp.right);
+        }
+      } else {
+        ArrayList<Integer> c_curr = new ArrayList<Integer>(curr);
+        res.add(c_curr);
+        //curr.clear();
+        if(!q.isEmpty()){
+          q.offer(null);
+        }
+      }
+    }
+    return res;
+  }
+
+
+
   public static void main(String args[]){
     BTTraversalNoRecursive BTNoRec = new BTTraversalNoRecursive();
 
@@ -125,5 +163,15 @@ public class BTTraversalNoRecursive {
     System.out.println();
     System.out.print("InOrder ==> " +" ");
     System.out.println(BTNoRec.printInOrderNoRec(BTNoRec.root).toString());
+
+    System.out.println();
+    System.out.print("Level Order ==> " +" ");
+    System.out.println(BTNoRec.levelOrderTraversal(BTNoRec.root).toString());
   }
+
+/*  Preorder ==>  [1, 2, 4, 5, 3]
+  PostOrder ==>  [4, 5, 2, 3, 1]
+  InOrder ==>  [4, 2, 5, 1, 3]
+  Level Order ==>  [[1], [1, 2, 3], [1, 2, 3, 4, 5]]
+  */
 }
