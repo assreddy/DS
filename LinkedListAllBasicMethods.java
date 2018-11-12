@@ -28,7 +28,7 @@ class Node{
 
 class LinkedList{
   Node head;
-
+  // Insert Operations for Linked List:::
   public void pushAtBegin(int data){
     Node newNode = new Node(data);
     newNode.next = head;
@@ -46,20 +46,19 @@ class LinkedList{
   }
 
   public void insertAtEnd(int data){
-    Node newNode = new Node(data);
+    Node lastNode = new Node(data);
+    Node temp = head;
     if(head == null){
-      head = new Node(data);
+      temp = head;
+      temp.next = null;
     }
-    newNode.next = null;
-
-    Node lastNode = head;
-    while(lastNode.next != null){
-      lastNode = lastNode.next;
+    while(temp.next != null){
+      temp = temp.next;
     }
-    lastNode.next = lastNode;
-    return;
+    temp.next=lastNode;
   }
 
+  // Display LinkedList Methods.
   public void printList(){
     Node n = head;
     while(n != null){
@@ -67,6 +66,15 @@ class LinkedList{
       n = n.next;
     }
     System.out.println("");
+  }
+
+  public void printListWhenNodeGiven(Node node){
+    while(node != null){
+      System.out.println(node.data + " ");
+      node = node.next;
+    }
+    System.out.println("");
+
   }
 
   public void printMiddle(){
@@ -77,25 +85,46 @@ class LinkedList{
         firstNode = firstNode.next.next;
         secondNode = secondNode.next;
       }
-      System.out.println(secondNode.data);
+      System.out.print(secondNode.data);
     }
   }
 
-  public void deleteNode(int key){
+  public void printNthNodeFromEnd(int n) {
+    int len =0;
     Node temp = head;
-    Node prev = null;
-    if(temp != null && temp.data == key){
-      head = temp.next;
+    while(temp !=null){
+      temp = temp.next;
+      len++;
+    }
+    if(len < n){
       return;
     }
-    while(temp != null && temp.data == key){
-      prev = temp;
+    temp = head;
+    for(int i =1; i<len-n+1; i++){
       temp = temp.next;
     }
-    if(temp == null ) {
-      return ;
+    System.out.println(temp.data);
+  }
+
+  // Delete Elements From LinkedList
+  public void deleteNode(int key){
+    Node current = head;
+    Node prev = null;
+    while (current != null && current.data == key) {
+      prev = current;
+      current = current.next;
     }
-    prev.next = temp.next;
+
+    if(current != null && prev == null) {
+      if (current.next != null) {
+        head = current.next;
+        return;
+      } else {
+        head = null;
+      }
+    } else if(current != null){
+      prev.next=current.next;
+    }
   }
 
   public void deleteNodePosition(int position){
@@ -121,94 +150,12 @@ class LinkedList{
     head = null;
   }
 
-/*  public void deleteFromEnd(){
-    Node node = head;
-    if(node != null){
-      head = node.getNode();
-      node.set
-
-    }
-
-  }*/
-
-/*  public void deleteFromFront(){
-    Node node = head;
-    if(node != null){
-      head = node.getNode();
-      node.set
-
-    }
-
-  }*/
-
   public int getCount(){
     Node temp = head;
     int count =0;
     while(temp != null){
       count++;
       temp = temp.next;
-    }
-    return count;
-  }
-
-  public boolean findNode(Node head, int x){
-
-    Node current = head;
-    while(current != null){
-      if(current.data == x){
-        return  true;
-      }
-      current = current.next;
-    }
-    return  false;
-  }
-
-  public int findNthNode(Node head, int position){
-
-    Node current = head;
-    int indexNode =0;
-    while(current !=null){
-      if(indexNode == position){
-        return current.data;
-      }
-      indexNode++;
-      current = current.next;
-    }
-
-    return 0; // When position is not found.
-
-  }
-
-  public void printNthNodeFromEnd(int n) {
-    int len =0;
-    Node temp = head;
-
-    while(temp !=null){
-      temp = temp.next;
-      len++;
-    }
-
-    if(len < n){
-      return;
-    }
-    temp = head;
-
-    for(int i =1; i<len-n+1; i++){
-      temp = temp.next;
-    }
-    System.out.println(temp.data);
-  }
-
-  public int findElementFoundCount(int key){
-
-    int count =0;
-
-    Node current = head;
-    while(current !=null){
-      if(current.data == key){
-        count++;
-        current = current.next;
-      }
     }
     return count;
   }
@@ -234,6 +181,44 @@ class LinkedList{
     return 0;
   }
 
+  public boolean findNode(Node head, int x){
+
+    Node current = head;
+    while(current != null){
+      if(current.data == x){
+        return  true;
+      }
+      current = current.next;
+    }
+    return  false;
+  }
+
+  public int findNthNode(Node head, int position){
+
+    Node current = head;
+    int indexNode =0;
+    while(current !=null){
+      if(indexNode == position){
+        return current.data;
+      }
+      indexNode++;
+      current = current.next;
+    }
+    return 0; // When position is not found.
+  }
+
+  public int findElementFoundCount(int key){
+    int count =1;
+    Node current = head;
+    while(current !=null){
+      if(current.data == key){
+        count++;
+      }
+      current = current.next;
+    }
+    return count;
+  }
+
   public void removeDuplicateInSortedList(){
     Node current = head;
     Node nextNextNode;
@@ -253,16 +238,12 @@ class LinkedList{
   }
 
   public void removeDuplicateUnSortedList(){
-
     Node node1 = null;
     Node node2 = null;
     Node dup = null;
-
     node1 = head;
-
     while(node1 != null && node1.next != null){
       node2 = node1;
-
       while(node2.next != null){
         if(node1.data == node2.next.data){
           dup = node2.next;
@@ -274,13 +255,12 @@ class LinkedList{
       }
       node1 = node1.next;
     }
-
   }
 
   public Node reverseLinkedList(Node node){
 
     Node prev = null;
-    Node current = node;
+    Node current = head;
     Node next = null;
 
     while(current !=null){
@@ -291,36 +271,48 @@ class LinkedList{
     }
     node = prev;
     return node;
-
-
   }
-
-
-
 }
-
-
-
-
 public class LinkedListAllBasicMethods {
-
   public static void main(String args[]){
-
     System.out.println("Printing Linked List At Middle Element");
-
     LinkedList ll = new LinkedList();
     ll.pushAtBegin(10);
     ll.pushAtBegin(20);
     ll.pushAtBegin(30);
     ll.pushAtBegin(40);
     ll.pushAtBegin(50);
+    ll.pushAtBegin(50);
+    ll.insertAtEnd(100);
+    ll.insertAtEnd(200);
+    ll.deleteNode(20);
+    ll.deleteNodePosition(2);
+    ll.insertAfterPreviousNode(ll.head, 5);
     ll.printList();
-    System.out.println("===================");
-    ll.printMiddle();
+    //  System.out.print("Middle Element =>"); ll.printMiddle();
+    System.out.println();
+    System.out.println("Count => " +ll.getCount());
+    System.out.println("LoppCountELements =>" +ll.getLoopCountElements(ll.head));
+    System.out.println("kth Element = ");
+    ll.printNthNodeFromEnd(5);
+    System.out.println("findElement = " +ll.findNode(ll.head, 5));
+    System.out.println("Find Nunber of count shown Elem ==> " +ll.findElementFoundCount(50));
+    System.out.println("find kth node ==> " + ll.findNthNode(ll.head, 4));
+    ll.removeDuplicateUnSortedList();
+    ll.pushAtBegin(50);
+    System.out.println("Count => " +ll.getCount());
+    ll.printList();
+    ll.removeDuplicateInSortedList();
+
+    ll.printList();
+    ll.printListWhenNodeGiven(ll.reverseLinkedList(ll.head));
+
+/*    System.out.println("===================");
+
     System.out.println("===================");
     ll.deleteNode(50);
     ll.printList();
     ll.deleteNodePosition(1);
-    ll.printList();
+    ll.printList();*/
   }
 }
